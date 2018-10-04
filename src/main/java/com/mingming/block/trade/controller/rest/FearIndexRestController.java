@@ -1,7 +1,7 @@
-package com.mingming.block.trade.controller;
+package com.mingming.block.trade.controller.rest;
 
 import com.mingming.block.trade.dto.ApiResponseDto;
-import com.mingming.block.trade.dto.FearGreedIndexDto;
+import com.mingming.block.trade.dto.FearIndexDto;
 import com.mingming.block.trade.service.FearIndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,27 +10,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/fear")
-public class FearGreedIndexController {
+public class FearIndexRestController {
 
     private final FearIndexService fearIndexService;
 
     @Autowired
-    public FearGreedIndexController(FearIndexService fearIndexService) {
+    public FearIndexRestController(FearIndexService fearIndexService) {
         this.fearIndexService = fearIndexService;
     }
 
     @GetMapping("/get")
-    public ApiResponseDto<FearGreedIndexDto> fetchIndex() {
+    public ApiResponseDto<FearIndexDto> fetchIndex() {
         return fearIndexService.crawl();
     }
 
     @GetMapping("/store")
-    public ApiResponseDto<FearGreedIndexDto> storeIndex() {
+    public ApiResponseDto<FearIndexDto> storeIndex() {
         return fearIndexService.store();
     }
 
     @GetMapping("/pop")
-    public ApiResponseDto<FearGreedIndexDto> popIndex() {
+    public ApiResponseDto<FearIndexDto> popIndex() {
         return fearIndexService.pop();
     }
 

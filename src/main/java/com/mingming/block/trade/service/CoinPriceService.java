@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class CoinPriceService {
@@ -27,14 +29,14 @@ public class CoinPriceService {
     }
 
     @ExHandlerAnnotation
-    public ApiResponseDto<CoinPriceDto> crawl(String coinName) {
-        CoinPriceDto coinPriceDto = fetchCoinPrice(coinName);
+    public ApiResponseDto<CoinPriceDto> crawl(String symbol) {
+        CoinPriceDto coinPriceDto = fetchCoinPrice(symbol);
         return ApiResponseDto.success(coinPriceDto);
     }
 
     @ExHandlerAnnotation
-    public ApiResponseDto<CoinPriceDto> store(String coinName) {
-        CoinPriceDto coinPriceDto = fetchCoinPrice(coinName);
+    public ApiResponseDto<CoinPriceDto> store(String symbol) {
+        CoinPriceDto coinPriceDto = fetchCoinPrice(symbol);
         coinPriceDao.insert(coinPriceDto);
         return ApiResponseDto.success(coinPriceDto);
     }
@@ -45,8 +47,15 @@ public class CoinPriceService {
         return ApiResponseDto.success(coinPriceDto);
     }
 
-    private CoinPriceDto fetchCoinPrice(String coinName) {
-        CoinEnum coinEnum = CoinEnum.findByName(coinName);
+    @ExHandlerAnnotation
+    public ApiResponseDto<List<CoinPriceDto>> search(String symbol) {
+        List<CoinPriceDto> coinPriceDtoList = coinPriceDao.selectAll(symbol);
+        return ApiResponseDto.success(coinPriceDtoList);
+    }
+
+
+    private CoinPriceDto fetchCoinPrice(String symbol) {
+        CoinEnum coinEnum = CoinEnum.findBySymbol(symbol);
         Preconditions.checkArgument(coinEnum != null, "coinEnum is not nullable");
         CoinTickerDto coinTickerDto = coinMarketCapSal.doGet(coinEnum);
         return CoinPriceDto.from(coinTickerDto);

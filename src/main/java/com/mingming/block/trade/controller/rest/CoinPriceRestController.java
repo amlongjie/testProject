@@ -1,4 +1,4 @@
-package com.mingming.block.trade.controller;
+package com.mingming.block.trade.controller.rest;
 
 import com.mingming.block.trade.dto.ApiResponseDto;
 import com.mingming.block.trade.dto.CoinPriceDto;
@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/coin")
-public class CoinMarketCapController {
+public class CoinPriceRestController {
 
     private final CoinPriceService coinPriceService;
 
     @Autowired
-    public CoinMarketCapController(CoinPriceService coinPriceService) {
+    public CoinPriceRestController(CoinPriceService coinPriceService) {
         this.coinPriceService = coinPriceService;
     }
 

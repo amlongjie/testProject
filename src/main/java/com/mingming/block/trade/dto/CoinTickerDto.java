@@ -23,7 +23,7 @@ public class CoinTickerDto {
         @JsonIgnoreProperties(ignoreUnknown = true)
         public class Quotes {
 
-            @JsonProperty("USD")
+            @JsonProperty("CNY")
             private Quote quote;
 
             @lombok.Data

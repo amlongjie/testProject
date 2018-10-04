@@ -14,12 +14,12 @@ public enum CoinEnum {
     BitCoin("1", "btc"), Eos("1765", "eos");
 
     private String id;
-    private String name;
+    private String symbol;
 
-    public static CoinEnum findByName(String coinName) {
-        Preconditions.checkArgument(StringUtils.isNotBlank(coinName), String.format("coinName is blank, coinName:%s", coinName));
+    public static CoinEnum findBySymbol(String symbol) {
+        Preconditions.checkArgument(StringUtils.isNotBlank(symbol), String.format("symbol is blank, coinName:%s", symbol));
         return Arrays.stream(CoinEnum.values())
-                .filter(item -> item.getName().equals(coinName))
+                .filter(item -> item.getSymbol().equals(symbol))
                 .findAny()
                 .orElse(null);
     }

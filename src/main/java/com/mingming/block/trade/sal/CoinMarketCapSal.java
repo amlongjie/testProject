@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CoinMarketCapSal {
 
-    private static final String BASE_URL = "https://api.coinmarketcap.com/v2/ticker/%s/";
+    private static final String BASE_URL = "https://api.coinmarketcap.com/v2/ticker/%s/?convert=CNY";
 
     @Retryable(backoff = @Backoff(value = 2000, multiplier = 2))
     public CoinTickerDto doGet(CoinEnum coinEnum) {

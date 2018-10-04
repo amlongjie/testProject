@@ -1,0 +1,1 @@
+nohup java -jar trade-0.0.1-SNAPSHOT.jar &

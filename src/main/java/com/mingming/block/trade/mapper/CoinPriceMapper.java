@@ -3,6 +3,8 @@ package com.mingming.block.trade.mapper;
 import com.mingming.block.trade.po.CoinPricePo;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface CoinPriceMapper {
 
@@ -17,4 +19,7 @@ public interface CoinPriceMapper {
 
     @Select("select * from coin_price where symbol = #{symbol} order by id desc limit 1")
     CoinPricePo pop(@Param(value = "symbol") String symbol);
+
+    @Select("select * from coin_price where symbol = #{symbol} order by id asc")
+    List<CoinPricePo> selectAllBySymbol(@Param(value = "symbol") String symbol);
 }

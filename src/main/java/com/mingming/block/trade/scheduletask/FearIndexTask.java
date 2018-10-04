@@ -1,7 +1,7 @@
 package com.mingming.block.trade.scheduletask;
 
 import com.mingming.block.trade.dto.ApiResponseDto;
-import com.mingming.block.trade.dto.FearGreedIndexDto;
+import com.mingming.block.trade.dto.FearIndexDto;
 import com.mingming.block.trade.service.FearIndexService;
 import com.mingming.block.trade.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,8 @@ public class FearIndexTask {
             return;
         }
 
-        ApiResponseDto<FearGreedIndexDto> recentDtoResponse = fearIndexService.pop();
-        FearGreedIndexDto recentDto = recentDtoResponse.getData();
+        ApiResponseDto<FearIndexDto> recentDtoResponse = fearIndexService.pop();
+        FearIndexDto recentDto = recentDtoResponse.getData();
         LocalDate recentDate = recentDto.getDate();
         LocalDate today = LocalDate.now();
 

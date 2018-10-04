@@ -1,13 +1,14 @@
 package com.mingming.block.trade.dao;
 
 import com.google.common.base.Preconditions;
-import com.mingming.block.trade.dto.FearGreedIndexDto;
+import com.mingming.block.trade.dto.FearIndexDto;
 import com.mingming.block.trade.mapper.FearIndexMapper;
 import com.mingming.block.trade.po.FearIndexPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class FearIndexDao {
@@ -22,11 +23,11 @@ public class FearIndexDao {
     /**
      * 添加一条
      *
-     * @param fearGreedIndexDto
+     * @param fearIndexDto
      * @return
      */
-    public Integer insert(FearGreedIndexDto fearGreedIndexDto) {
-        FearIndexPo fearIndexPo = FearGreedIndexDto.to(fearGreedIndexDto);
+    public Integer insert(FearIndexDto fearIndexDto) {
+        FearIndexPo fearIndexPo = FearIndexDto.to(fearIndexDto);
         Integer affect = fearIndexMapper.insert(fearIndexPo);
         Preconditions.checkArgument(affect != null && affect == 1, "insert execute failed");
         return affect;
@@ -37,9 +38,21 @@ public class FearIndexDao {
      *
      * @return
      */
-    public FearGreedIndexDto selectPop() {
+    public FearIndexDto selectPop() {
         FearIndexPo fearIndexPo = fearIndexMapper.selectPop();
         Preconditions.checkArgument(fearIndexPo != null, "pop result is null");
-        return FearGreedIndexDto.from(fearIndexPo);
+        return FearIndexDto.from(fearIndexPo);
+    }
+
+    /**
+     * 查询所有
+     *
+     * @return
+     */
+    public List<FearIndexDto> selectAll() {
+        List<FearIndexPo> fearIndexPoList = fearIndexMapper.selectAll();
+        return fearIndexPoList.stream()
+                .map(FearIndexDto::from)
+                .collect(Collectors.toList());
     }
 }

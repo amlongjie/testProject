@@ -7,6 +7,9 @@ import com.mingming.block.trade.po.CoinPricePo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Repository
 public class CoinPriceDao {
 
@@ -33,11 +36,24 @@ public class CoinPriceDao {
     /**
      * 查询最近一条
      *
-     * @return
      * @param symbol
+     * @return
      */
     public CoinPriceDto selectPop(String symbol) {
         CoinPricePo po = coinPriceMapper.pop(symbol);
         return CoinPriceDto.from(po);
+    }
+
+    /**
+     * 查询指定代币的价格
+     *
+     * @param symbol
+     * @return
+     */
+    public List<CoinPriceDto> selectAll(String symbol) {
+        List<CoinPricePo> coinPriceDtoList = coinPriceMapper.selectAllBySymbol(symbol);
+        return coinPriceDtoList.stream()
+                .map(CoinPriceDto::from)
+                .collect(Collectors.toList());
     }
 }
