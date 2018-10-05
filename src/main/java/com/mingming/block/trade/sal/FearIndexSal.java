@@ -7,7 +7,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FearGreedIndexSal {
+public class FearIndexSal {
 
     @Retryable(backoff = @Backoff(value = 2000, multiplier = 2))
     public Document doGet() {

@@ -4,7 +4,7 @@ import com.mingming.block.trade.aspect.annotation.ExHandlerAnnotation;
 import com.mingming.block.trade.dao.FearIndexDao;
 import com.mingming.block.trade.dto.ApiResponseDto;
 import com.mingming.block.trade.dto.FearIndexDto;
-import com.mingming.block.trade.sal.FearGreedIndexSal;
+import com.mingming.block.trade.sal.FearIndexSal;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,13 +19,13 @@ import java.util.List;
 @Service
 public class FearIndexService {
 
-    private final FearGreedIndexSal fearGreedIndexSal;
+    private final FearIndexSal fearIndexSal;
 
     private final FearIndexDao fearIndexDao;
 
     @Autowired
-    public FearIndexService(FearGreedIndexSal fearGreedIndexSal, FearIndexDao fearIndexDao) {
-        this.fearGreedIndexSal = fearGreedIndexSal;
+    public FearIndexService(FearIndexSal fearIndexSal, FearIndexDao fearIndexDao) {
+        this.fearIndexSal = fearIndexSal;
         this.fearIndexDao = fearIndexDao;
     }
 
@@ -57,7 +57,7 @@ public class FearIndexService {
 
     private FearIndexDto fetchFearGreedIndex() {
         // 抓取数据
-        Document doc = fearGreedIndexSal.doGet();
+        Document doc = fearIndexSal.doGet();
 
         // 获取指数
         Elements fearIndexElements = doc.getElementsByClass("fng-circle");

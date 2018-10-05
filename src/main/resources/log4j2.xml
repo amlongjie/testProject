@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+
+    <Properties>
+        <Property name="log_path">/opt/logs/token-trade</Property>
+    </Properties>
+
+    <appenders>
+
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="%5p [%t] %d{yyyy-MM-dd HH:mm:ss.SSS} %l %m %n"/>
+        </Console>
+
+        <RollingRandomAccessFile name="errorLog" immediateFlush="true" fileName="${log_path}/error.log"
+                                 filePattern="${log_path}/history/error.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>%-5p %d{yyyy-MM-dd HH:mm:ss} %c (%t:%l) %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="infoLog"
+                                 immediateFlush="true" fileName="${log_path}/info.log"
+                                 filePattern="${log_path}/history/info.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="warn" onMatch="DENY" onMismatch="ACCEPT"/>
+            <PatternLayout>
+                <pattern>%-5p %d{yyyy-MM-dd HH:mm:ss} %c (%t:%l) %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="sqlLog"
+                                 immediateFlush="true" fileName="${log_path}/sql.log"
+                                 filePattern="${log_path}/history/sql.log.%d{yyyy-MM-dd}">
+            <PatternLayout>
+                <pattern>%-5p %d{yyyy-MM-dd HH:mm:ss} %c (%t:%l) %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingRandomAccessFile>
+    </appenders>
+
+    <loggers>
+
+        <root level="info">
+            <appender-ref ref="stdout"/>
+            <appender-ref ref="infoLog"/>
+            <appender-ref ref="errorLog"/>
+        </root>
+
+        <Logger name="com.mingming.block.trade.mapper" level="DEBUG" additivity="false">
+            <appender-ref ref="sqlLog"/>
+        </Logger>
+
+    </loggers>
+
+</configuration>
