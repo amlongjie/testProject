@@ -18,8 +18,8 @@
         <td th:text="${d.getDate()}"></td>
         <td th:text="${d.getIndex()}"></td>
         <td th:text="${d.getStatus()}"></td>
-        <td th:text="${d.getBtcPrice() / 100}"></td>
-        <td th:text="${d.getEosPrice() / 100}"></td>
+        <td th:text="${d.getBtcPrice() / 100.0}"></td>
+        <td th:text="${d.getEosPrice() / 100.0}"></td>
     </tr>
 </table>
 </body>
