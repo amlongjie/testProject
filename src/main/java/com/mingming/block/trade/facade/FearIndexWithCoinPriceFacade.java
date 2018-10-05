@@ -32,13 +32,13 @@ public class FearIndexWithCoinPriceFacade {
     public ApiResponseDto<List<FearIndexWithCoinPriceDto>> queryFearIndexWithCoinPrice() {
 
         ApiResponseDto<List<FearIndexDto>> fearIndexResponse = fearIndexService.search();
-        Preconditions.checkArgument(fearIndexResponse.getCode() == 1, "fearIndex search failed");
+        Preconditions.checkArgument(fearIndexResponse.getCode() == 0, "fearIndex search failed");
 
         ApiResponseDto<List<CoinPriceDto>> bitCoinResponse = coinPriceService.search(CoinEnum.BitCoin.getSymbol());
-        Preconditions.checkArgument(bitCoinResponse.getCode() == 1, "bitCoin price search failed");
+        Preconditions.checkArgument(bitCoinResponse.getCode() == 0, "bitCoin price search failed");
 
         ApiResponseDto<List<CoinPriceDto>> eosResponse = coinPriceService.search(CoinEnum.Eos.getSymbol());
-        Preconditions.checkArgument(eosResponse.getCode() == 1, "eos price search failed");
+        Preconditions.checkArgument(eosResponse.getCode() == 0, "eos price search failed");
 
         List<FearIndexDto> fearIndexDtoList = fearIndexResponse.getData();
         List<CoinPriceDto> bitCoinPriceDtoList = bitCoinResponse.getData();
