@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>聚合数据查询</title>
+</head>
+<body>
+<h1>聚合数据查询</h1>
+<table width="100%" border="1" cellspacing="1" cellpadding="0">
+    <tr>
+        <th>日期</th>
+        <th>指数</th>
+        <th>描述</th>
+        <th>BTC</th>
+        <th>EOS</th>
+    </tr>
+    <tr th:each="d : ${data}">
+        <td th:text="${d.getDate()}"></td>
+        <td th:text="${d.getIndex()}"></td>
+        <td th:text="${d.getStatus()}"></td>
+        <td th:text="${d.getBtcPrice() / 100}"></td>
+        <td th:text="${d.getEosPrice() / 100}"></td>
+    </tr>
+</table>
+</body>
+</html>
