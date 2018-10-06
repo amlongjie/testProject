@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -35,16 +36,15 @@ public class CoinPriceService {
     }
 
     @ExHandlerAnnotation
-    public ApiResponseDto<CoinPriceDto> store(String symbol) {
+    public ApiResponseDto<Integer> store(String symbol) {
+        CoinPriceDto popDto = coinPriceDao.selectPop(symbol);
+        if (popDto != null && LocalDate.now().equals(popDto.getDate())) {
+            log.info(String.format("pop Data is today's data. %s", popDto));
+            return ApiResponseDto.success(0);
+        }
         CoinPriceDto coinPriceDto = fetchCoinPrice(symbol);
-        coinPriceDao.insert(coinPriceDto);
-        return ApiResponseDto.success(coinPriceDto);
-    }
-
-    @ExHandlerAnnotation
-    public ApiResponseDto<CoinPriceDto> pop(String symbol) {
-        CoinPriceDto coinPriceDto = coinPriceDao.selectPop(symbol);
-        return ApiResponseDto.success(coinPriceDto);
+        int affect = coinPriceDao.insert(coinPriceDto);
+        return ApiResponseDto.success(affect);
     }
 
     @ExHandlerAnnotation

@@ -1,24 +1,26 @@
 package com.mingming.block.trade.scheduletask;
 
 import com.mingming.block.trade.dto.ApiResponseDto;
-import com.mingming.block.trade.dto.CoinPriceDto;
+import com.mingming.block.trade.enums.CoinEnum;
 import com.mingming.block.trade.service.CoinPriceService;
+import com.mingming.block.trade.service.FearIndexService;
 import com.mingming.block.trade.utils.TimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
 @Slf4j
 @Component
-public class CoinPriceTask {
+public class FearIndexCoinPriceTask {
+
+    private final FearIndexService fearIndexService;
 
     private final CoinPriceService coinPriceService;
 
     @Autowired
-    public CoinPriceTask(CoinPriceService coinPriceService) {
+    public FearIndexCoinPriceTask(FearIndexService fearIndexService, CoinPriceService coinPriceService) {
+        this.fearIndexService = fearIndexService;
         this.coinPriceService = coinPriceService;
     }
 
@@ -30,23 +32,12 @@ public class CoinPriceTask {
             return;
         }
 
-        doStore("btc");
-        doStore("eos");
-
-    }
-
-    private void doStore(String symbol) {
-
-        ApiResponseDto<CoinPriceDto> recentDtoResponse = coinPriceService.pop(symbol);
-        CoinPriceDto recentDto = recentDtoResponse.getData();
-        LocalDate recentDate = recentDto.getDate();
-        LocalDate today = LocalDate.now();
-
-        // 如果今天已经添加,就不执行了
-        if (recentDate.isEqual(today)) {
-            log.info(String.format("today has stored, recentDto:%s", recentDto));
+        ApiResponseDto<Integer> storeResponse = fearIndexService.store();
+        if (storeResponse == null || storeResponse.isFailed() || storeResponse.getData() == 0) {
+            log.info("today is added");
             return;
         }
-        coinPriceService.store(symbol);
+        coinPriceService.store(CoinEnum.BitCoin.getSymbol());
+        coinPriceService.store(CoinEnum.Eos.getSymbol());
     }
 }

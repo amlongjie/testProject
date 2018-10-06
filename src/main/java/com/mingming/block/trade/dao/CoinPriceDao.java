@@ -7,6 +7,7 @@ import com.mingming.block.trade.po.CoinPricePo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,8 +40,12 @@ public class CoinPriceDao {
      * @param symbol
      * @return
      */
+    @Nullable
     public CoinPriceDto selectPop(String symbol) {
         CoinPricePo po = coinPriceMapper.pop(symbol);
+        if (po == null) {
+            return null;
+        }
         return CoinPriceDto.from(po);
     }
 

@@ -7,6 +7,7 @@ import com.mingming.block.trade.po.FearIndexPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,9 +39,12 @@ public class FearIndexDao {
      *
      * @return
      */
+    @Nullable
     public FearIndexDto selectPop() {
         FearIndexPo fearIndexPo = fearIndexMapper.selectPop();
-        Preconditions.checkArgument(fearIndexPo != null, "pop result is null");
+        if (fearIndexPo == null) {
+            return null;
+        }
         return FearIndexDto.from(fearIndexPo);
     }
 

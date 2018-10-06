@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -22,6 +23,8 @@ public class FearIndexService {
     private final FearIndexSal fearIndexSal;
 
     private final FearIndexDao fearIndexDao;
+
+    private static final DateTimeFormatter crawlerFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
 
     @Autowired
     public FearIndexService(FearIndexSal fearIndexSal, FearIndexDao fearIndexDao) {
@@ -36,17 +39,17 @@ public class FearIndexService {
     }
 
     @ExHandlerAnnotation
-    public ApiResponseDto<FearIndexDto> store() {
+    public ApiResponseDto<Integer> store() {
+        FearIndexDto popDto = fearIndexDao.selectPop();
+        if (popDto != null && LocalDate.now().equals(popDto.getDate())) {
+            log.info(String.format("pop Data is today's data. %s", popDto));
+            return ApiResponseDto.success(0);
+        }
         FearIndexDto fearIndexDto = fetchFearGreedIndex();
-        fearIndexDao.insert(fearIndexDto);
-        return ApiResponseDto.success(fearIndexDto);
+        Integer affect = fearIndexDao.insert(fearIndexDto);
+        return ApiResponseDto.success(affect);
     }
 
-    @ExHandlerAnnotation
-    public ApiResponseDto<FearIndexDto> pop() {
-        FearIndexDto fearIndexDto = fearIndexDao.selectPop();
-        return ApiResponseDto.success(fearIndexDto);
-    }
 
     @ExHandlerAnnotation
     public ApiResponseDto<List<FearIndexDto>> search() {
@@ -69,8 +72,11 @@ public class FearIndexService {
         Element statusElement = statusElements.get(0);
         String status = statusElement.text();
 
+        Elements updateTimeElements = doc.getElementsByClass("fng-footer");
+        Element updateTimeElement = updateTimeElements.get(0);
+        LocalDate date = LocalDate.parse(updateTimeElement.text().replace("Last updated: ", ""), crawlerFormatter);
         // 构造结果
-        return new FearIndexDto(LocalDate.now(), Integer.valueOf(index), status);
+        return new FearIndexDto(date, Integer.valueOf(index), status);
     }
 
 

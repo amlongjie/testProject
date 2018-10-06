@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+
 public class FearIndexServiceTests extends TradeApplicationTests {
 
     @Autowired
@@ -18,12 +20,14 @@ public class FearIndexServiceTests extends TradeApplicationTests {
     }
 
     @Test
-    public void testPop() {
-        ApiResponseDto<FearIndexDto> pop = fearIndexService.pop();
-        Assert.assertNotNull(pop);
-        Assert.assertNotNull(pop.getData());
-        Assert.assertEquals(pop.getCode(), 0);
-        Assert.assertEquals(pop.getMsg(), "");
-        System.out.println(pop);
+    public void testCrawl() {
+        ApiResponseDto<FearIndexDto> crawlResponse = fearIndexService.crawl();
+        Assert.assertNotNull(crawlResponse);
+        Assert.assertEquals(0, crawlResponse.getCode());
+        Assert.assertEquals("", crawlResponse.getMsg());
+
+        FearIndexDto dto = crawlResponse.getData();
+        Assert.assertEquals(LocalDate.now(), dto.getDate());
     }
+
 }

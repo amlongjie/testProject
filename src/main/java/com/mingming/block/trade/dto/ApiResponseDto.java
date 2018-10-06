@@ -1,5 +1,6 @@
 package com.mingming.block.trade.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
@@ -21,5 +22,10 @@ public class ApiResponseDto<T> {
         responseDto.code = 1;
         responseDto.msg = e.getMessage();
         return responseDto;
+    }
+
+    @JsonIgnore
+    public boolean isFailed() {
+        return code == 1;
     }
 }

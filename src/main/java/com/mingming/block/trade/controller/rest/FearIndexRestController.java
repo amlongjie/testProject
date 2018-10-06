@@ -25,13 +25,8 @@ public class FearIndexRestController {
     }
 
     @GetMapping("/store")
-    public ApiResponseDto<FearIndexDto> storeIndex() {
+    public ApiResponseDto<Integer> storeIndex() {
         return fearIndexService.store();
-    }
-
-    @GetMapping("/pop")
-    public ApiResponseDto<FearIndexDto> popIndex() {
-        return fearIndexService.pop();
     }
 
 }

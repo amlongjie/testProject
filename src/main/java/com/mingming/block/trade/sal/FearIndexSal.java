@@ -14,6 +14,7 @@ public class FearIndexSal {
         try {
             return Jsoup.connect("https://alternative.me/crypto/fear-and-greed-index/")
                     .timeout(30000)
+                    .validateTLSCertificates(false)
                     .get();
         } catch (Exception e) {
             throw new IllegalStateException(e);

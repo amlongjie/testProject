@@ -27,12 +27,7 @@ public class CoinPriceRestController {
 
 
     @GetMapping("/store/{name}")
-    public ApiResponseDto<CoinPriceDto> storeTicker(@PathVariable(name = "name") String name) {
+    public ApiResponseDto<Integer> storeTicker(@PathVariable(name = "name") String name) {
         return coinPriceService.store(name);
-    }
-
-    @GetMapping("/pop/{name}")
-    public ApiResponseDto<CoinPriceDto> popTicker(@PathVariable(name = "name") String name) {
-        return coinPriceService.pop(name);
     }
 }

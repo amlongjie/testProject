@@ -1,4 +1,5 @@
 CREATE DATABASE trade;
+USE trade;
 CREATE TABLE `fear_index` (
   `id`              INT(11)   NOT NULL AUTO_INCREMENT,
   `index`           INT(11)   NOT NULL,
