@@ -27,7 +27,7 @@ public class FearIndexCoinPriceTask {
         this.btcMarketCapService = btcMarketCapService;
     }
 
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 */10 * * * ?")
     public void doSchedule() {
         // 中午12点之后执行.
         if (TimeUtils.hourLessThan(12)) {
