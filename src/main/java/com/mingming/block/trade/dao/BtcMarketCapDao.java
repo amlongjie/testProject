@@ -30,7 +30,7 @@ public class BtcMarketCapDao {
     public int insert(BtcMarketCapDtoWrapper btcMarketCapDto) {
         BtcMarketCapPo po = BtcMarketCapDtoWrapper.to(btcMarketCapDto);
         Integer affect = btcMarketCapMapper.insert(po);
-        Preconditions.checkArgument(affect != null && affect == 1, "insert execute failed");
+        Preconditions.checkArgument(affect != null && affect > 0, "insert execute failed");
         return affect;
     }
 

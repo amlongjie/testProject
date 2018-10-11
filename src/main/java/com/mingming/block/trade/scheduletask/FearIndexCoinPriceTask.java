@@ -1,6 +1,5 @@
 package com.mingming.block.trade.scheduletask;
 
-import com.mingming.block.trade.dto.ApiResponseVO;
 import com.mingming.block.trade.enums.CoinEnum;
 import com.mingming.block.trade.service.BtcMarketCapService;
 import com.mingming.block.trade.service.CoinPriceService;
@@ -28,7 +27,7 @@ public class FearIndexCoinPriceTask {
         this.btcMarketCapService = btcMarketCapService;
     }
 
-    @Scheduled(cron = "0 */5 * * * ?")
+    @Scheduled(cron = "0 */1 * * * ?")
     public void doSchedule() {
         // 中午12点之后执行.
         if (TimeUtils.hourLessThan(12)) {
@@ -36,13 +35,13 @@ public class FearIndexCoinPriceTask {
             return;
         }
 
-        ApiResponseVO<Integer> storeResponse = fearIndexService.store();
-        if (storeResponse == null || storeResponse.isFailed() || storeResponse.getData() == 0) {
-            log.info("today is added");
-            return;
+        try {
+            fearIndexService.store();
+            coinPriceService.store(CoinEnum.BitCoin.getSymbol());
+            coinPriceService.store(CoinEnum.Eos.getSymbol());
+            btcMarketCapService.store();
+        } catch (Exception e) {
+            log.error("", e);
         }
-        coinPriceService.store(CoinEnum.BitCoin.getSymbol());
-        coinPriceService.store(CoinEnum.Eos.getSymbol());
-        btcMarketCapService.store();
     }
 }

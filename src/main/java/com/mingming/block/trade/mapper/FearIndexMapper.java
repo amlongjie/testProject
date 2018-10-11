@@ -8,7 +8,8 @@ import java.util.List;
 @Mapper
 public interface FearIndexMapper {
 
-    @Insert("insert into fear_index(`index`, `status`, `date`) values(#{po.index}, #{po.status}, #{po.date})")
+    @Insert("insert into fear_index(`index`, `status`, `date`) values(#{po.index}, #{po.status}, #{po.date})" +
+            " ON DUPLICATE KEY UPDATE `index` = #{po.index}, `status` = #{po.status}")
     @SelectKey(keyColumn = "id",
             keyProperty = "po.id",
             before = false,

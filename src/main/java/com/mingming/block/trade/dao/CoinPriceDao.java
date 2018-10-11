@@ -30,7 +30,7 @@ public class CoinPriceDao {
     public int insert(CoinPriceDto coinPriceDto) {
         CoinPricePo po = CoinPriceDto.to(coinPriceDto);
         Integer affect = coinPriceMapper.insert(po);
-        Preconditions.checkArgument(affect != null && affect == 1, "insert execute failed");
+        Preconditions.checkArgument(affect != null && affect > 0, "insert execute failed");
         return affect;
     }
 

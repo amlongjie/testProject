@@ -8,7 +8,8 @@ import java.util.List;
 @Mapper
 public interface BtcMarketCapMapper {
 
-    @Insert("insert into btc_market_cap(`percent`,`date`) values(#{po.percent},  #{po.date})")
+    @Insert("insert into btc_market_cap(`percent`,`date`) values(#{po.percent},  #{po.date})" +
+            "ON DUPLICATE KEY UPDATE `percent` = #{po.percent}")
     @SelectKey(keyColumn = "id",
             keyProperty = "po.id",
             before = false,

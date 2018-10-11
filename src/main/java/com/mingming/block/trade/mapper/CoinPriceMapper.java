@@ -8,7 +8,8 @@ import java.util.List;
 @Mapper
 public interface CoinPriceMapper {
 
-    @Insert("insert into coin_price(`price`, `symbol`, `date`) values(#{po.price}, #{po.symbol}, #{po.date})")
+    @Insert("insert into coin_price(`price`, `symbol`, `date`) values(#{po.price}, #{po.symbol}, #{po.date})" +
+            "ON DUPLICATE KEY UPDATE `price` = #{po.price}")
     @SelectKey(keyColumn = "id",
             keyProperty = "po.id",
             before = false,

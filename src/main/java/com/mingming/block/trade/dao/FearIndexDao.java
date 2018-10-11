@@ -30,7 +30,7 @@ public class FearIndexDao {
     public Integer insert(FearIndexDto fearIndexDto) {
         FearIndexPo fearIndexPo = FearIndexDto.to(fearIndexDto);
         Integer affect = fearIndexMapper.insert(fearIndexPo);
-        Preconditions.checkArgument(affect != null && affect == 1, "insert execute failed");
+        Preconditions.checkArgument(affect != null && affect > 0, "insert execute failed");
         return affect;
     }
 

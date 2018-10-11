@@ -40,29 +40,9 @@ public class FearIndexService {
 
     @ExHandlerAnnotation
     public ApiResponseVO<Integer> store() {
-        FearIndexDto popDto = fearIndexDao.selectPop();
-        // 如果是Null,直接设值
-        if (popDto == null) {
-            FearIndexDto fearIndexDto = fetchFearGreedIndex();
-            Integer affect = fearIndexDao.insert(fearIndexDto);
-            return ApiResponseVO.success(affect);
-        }
-
-        LocalDate today = LocalDate.now();
-        // 今天已经添加过
-        if (today.isEqual(popDto.getDate())) {
-            log.info(String.format("pop Data is today's data. %s", popDto));
-            return ApiResponseVO.success(0);
-        }
-
         FearIndexDto fearIndexDto = fetchFearGreedIndex();
-        // 恐慌指数已经更新
-        if (today.isEqual(fearIndexDto.getDate())) {
-            Integer affect = fearIndexDao.insert(fearIndexDto);
-            return ApiResponseVO.success(affect);
-        }
-
-        return ApiResponseVO.success(0);
+        Integer affect = fearIndexDao.insert(fearIndexDto);
+        return ApiResponseVO.success(affect);
     }
 
 
@@ -95,5 +75,25 @@ public class FearIndexService {
         return new FearIndexDto(date, Integer.valueOf(index), status);
     }
 
+    /*
+    全量数据,2018-01-01开始
+    "30","15","40","24","11","8","36","30","44","54","31","42","35","55","71",
+    "67","74","63","67","74","54","44","39","31","33","37","44","41","38","47",
+    "56","44","55","59","37","39","37","39","40","41","41","40","32","33","31",
+    "29","29","37","36","36","28","32","30","31","24","24","18","12","16","16",
+    "11","22","22","17","19","20","17","21","18","20","18","23","26","24","25",
+    "26","32","31","28","29","64","47","55","54","61","59","56","52","55","56",
+    "63","67","56","62","53","63","41","44","40","40","40","32","31","37","31",
+    "32","41","30","26","27","25","23","19","22","16","38","25","24","27","40",
+    "41","26","42","38","40","39","24","15","19","19","17","26","22","23","27",
+    "32","34","37","28","17","15","16","21","18","20","16","22","27","27","31",
+    "33","37","34","34","38","39","37","29","33","29","29","32","36","39","42",
+    "44","47","43","46","44","49","54","53","47","54","54","53","48","39","39",
+    "36","31","23","25","25","23","19","21","18","18","21","16","18","21","19",
+    "24","27","26","19","21","18","19","22","19","18","19","19","22","17","21",
+    "18","19","26","17","14","17","18","13","15","18","14","20","23","24","28",
+    "25","21","24","24","31","35","38","43","37","37","42","42","37","34","35",
+    "33","36","29","37","34","29","26","31","28","19"
+     */
 
 }
