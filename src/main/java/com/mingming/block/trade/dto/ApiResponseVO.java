@@ -4,21 +4,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
-public class ApiResponseDto<T> {
+public class ApiResponseVO<T> {
     private int code;
     private String msg;
     private T data;
 
-    public static <T> ApiResponseDto<T> success(T data) {
-        ApiResponseDto<T> responseDto = new ApiResponseDto<>();
+    public static <T> ApiResponseVO<T> success(T data) {
+        ApiResponseVO<T> responseDto = new ApiResponseVO<>();
         responseDto.code = 0;
         responseDto.msg = "";
         responseDto.data = data;
         return responseDto;
     }
 
-    public static ApiResponseDto fail(Exception e) {
-        ApiResponseDto responseDto = new ApiResponseDto();
+    public static ApiResponseVO fail(Exception e) {
+        ApiResponseVO responseDto = new ApiResponseVO();
         responseDto.code = 1;
         responseDto.msg = e.getMessage();
         return responseDto;

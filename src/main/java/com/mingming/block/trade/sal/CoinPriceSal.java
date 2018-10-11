@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class CoinMarketCapSal {
+public class CoinPriceSal {
 
     private static final String BASE_URL = "https://api.coinmarketcap.com/v2/ticker/%s/?convert=CNY";
 

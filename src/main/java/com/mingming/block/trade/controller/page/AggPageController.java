@@ -1,7 +1,7 @@
 package com.mingming.block.trade.controller.page;
 
-import com.mingming.block.trade.dto.ApiResponseDto;
-import com.mingming.block.trade.dto.FearIndexWithCoinPriceDto;
+import com.mingming.block.trade.dto.ApiResponseVO;
+import com.mingming.block.trade.dto.AggViewDto;
 import com.mingming.block.trade.facade.FearIndexWithCoinPriceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,21 +12,21 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/agg")
-public class FearIndexWithCoinPricePageController {
+public class AggPageController {
 
     private final FearIndexWithCoinPriceFacade fearIndexWithCoinPriceFacade;
 
     @Autowired
-    public FearIndexWithCoinPricePageController(FearIndexWithCoinPriceFacade fearIndexWithCoinPriceFacade) {
+    public AggPageController(FearIndexWithCoinPriceFacade fearIndexWithCoinPriceFacade) {
         this.fearIndexWithCoinPriceFacade = fearIndexWithCoinPriceFacade;
     }
 
 
     @RequestMapping("/iwp")
-    public ModelAndView fearIndexWithCoinPriceView() {
+    public ModelAndView aggView() {
         ModelAndView modelAndView = new ModelAndView();
 
-        ApiResponseDto<List<FearIndexWithCoinPriceDto>> responseDto = fearIndexWithCoinPriceFacade.queryFearIndexWithCoinPrice();
+        ApiResponseVO<List<AggViewDto>> responseDto = fearIndexWithCoinPriceFacade.queryFearIndexWithCoinPrice();
 
         if (responseDto.getCode() == 1) {
             modelAndView.setViewName("error_page");
@@ -34,7 +34,7 @@ public class FearIndexWithCoinPricePageController {
             return modelAndView;
         }
         modelAndView.setViewName("agg/iwp");
-        List<FearIndexWithCoinPriceDto> data = responseDto.getData();
+        List<AggViewDto> data = responseDto.getData();
         modelAndView.addObject("data", data);
 
         return modelAndView;

@@ -1,6 +1,6 @@
 package com.mingming.block.trade.aspect;
 
-import com.mingming.block.trade.dto.ApiResponseDto;
+import com.mingming.block.trade.dto.ApiResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component;
 public class GlobalServiceExceptionAspect {
 
     @Around(value = "@annotation(com.mingming.block.trade.aspect.annotation.ExHandlerAnnotation)")
-    public ApiResponseDto apiResponseDto(ProceedingJoinPoint joinPoint) throws Throwable {
+    public ApiResponseVO apiResponseDto(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             Object proceed = joinPoint.proceed();
-            return (ApiResponseDto) proceed;
+            return (ApiResponseVO) proceed;
         } catch (Exception e) {
             log.error("", e);
-            return ApiResponseDto.fail(e);
+            return ApiResponseVO.fail(e);
         }
     }
 }

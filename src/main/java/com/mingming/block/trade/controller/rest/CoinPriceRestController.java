@@ -1,6 +1,6 @@
 package com.mingming.block.trade.controller.rest;
 
-import com.mingming.block.trade.dto.ApiResponseDto;
+import com.mingming.block.trade.dto.ApiResponseVO;
 import com.mingming.block.trade.dto.CoinPriceDto;
 import com.mingming.block.trade.service.CoinPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +21,13 @@ public class CoinPriceRestController {
     }
 
     @GetMapping("/get/{name}")
-    public ApiResponseDto<CoinPriceDto> fetchTicker(@PathVariable(name = "name") String name) {
+    public ApiResponseVO<CoinPriceDto> fetchTicker(@PathVariable(name = "name") String name) {
         return coinPriceService.crawl(name);
     }
 
 
     @GetMapping("/store/{name}")
-    public ApiResponseDto<Integer> storeTicker(@PathVariable(name = "name") String name) {
+    public ApiResponseVO<Integer> storeTicker(@PathVariable(name = "name") String name) {
         return coinPriceService.store(name);
     }
 }

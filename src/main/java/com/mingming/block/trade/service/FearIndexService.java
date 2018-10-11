@@ -2,7 +2,7 @@ package com.mingming.block.trade.service;
 
 import com.mingming.block.trade.aspect.annotation.ExHandlerAnnotation;
 import com.mingming.block.trade.dao.FearIndexDao;
-import com.mingming.block.trade.dto.ApiResponseDto;
+import com.mingming.block.trade.dto.ApiResponseVO;
 import com.mingming.block.trade.dto.FearIndexDto;
 import com.mingming.block.trade.sal.FearIndexSal;
 import lombok.extern.slf4j.Slf4j;
@@ -33,28 +33,43 @@ public class FearIndexService {
     }
 
     @ExHandlerAnnotation
-    public ApiResponseDto<FearIndexDto> crawl() {
+    public ApiResponseVO<FearIndexDto> crawl() {
         FearIndexDto fearIndexDto = fetchFearGreedIndex();
-        return ApiResponseDto.success(fearIndexDto);
+        return ApiResponseVO.success(fearIndexDto);
     }
 
     @ExHandlerAnnotation
-    public ApiResponseDto<Integer> store() {
+    public ApiResponseVO<Integer> store() {
         FearIndexDto popDto = fearIndexDao.selectPop();
-        if (popDto != null && LocalDate.now().equals(popDto.getDate())) {
-            log.info(String.format("pop Data is today's data. %s", popDto));
-            return ApiResponseDto.success(0);
+        // 如果是Null,直接设值
+        if (popDto == null) {
+            FearIndexDto fearIndexDto = fetchFearGreedIndex();
+            Integer affect = fearIndexDao.insert(fearIndexDto);
+            return ApiResponseVO.success(affect);
         }
+
+        LocalDate today = LocalDate.now();
+        // 今天已经添加过
+        if (today.isEqual(popDto.getDate())) {
+            log.info(String.format("pop Data is today's data. %s", popDto));
+            return ApiResponseVO.success(0);
+        }
+
         FearIndexDto fearIndexDto = fetchFearGreedIndex();
-        Integer affect = fearIndexDao.insert(fearIndexDto);
-        return ApiResponseDto.success(affect);
+        // 恐慌指数已经更新
+        if (today.isEqual(fearIndexDto.getDate())) {
+            Integer affect = fearIndexDao.insert(fearIndexDto);
+            return ApiResponseVO.success(affect);
+        }
+
+        return ApiResponseVO.success(0);
     }
 
 
     @ExHandlerAnnotation
-    public ApiResponseDto<List<FearIndexDto>> search() {
+    public ApiResponseVO<List<FearIndexDto>> search() {
         List<FearIndexDto> fearIndexDtoList = fearIndexDao.selectAll();
-        return ApiResponseDto.success(fearIndexDtoList);
+        return ApiResponseVO.success(fearIndexDtoList);
     }
 
 
@@ -75,6 +90,7 @@ public class FearIndexService {
         Elements updateTimeElements = doc.getElementsByClass("fng-footer");
         Element updateTimeElement = updateTimeElements.get(0);
         LocalDate date = LocalDate.parse(updateTimeElement.text().replace("Last updated: ", ""), crawlerFormatter);
+
         // 构造结果
         return new FearIndexDto(date, Integer.valueOf(index), status);
     }

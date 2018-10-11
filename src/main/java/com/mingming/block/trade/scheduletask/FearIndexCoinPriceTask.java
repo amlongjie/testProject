@@ -1,7 +1,8 @@
 package com.mingming.block.trade.scheduletask;
 
-import com.mingming.block.trade.dto.ApiResponseDto;
+import com.mingming.block.trade.dto.ApiResponseVO;
 import com.mingming.block.trade.enums.CoinEnum;
+import com.mingming.block.trade.service.BtcMarketCapService;
 import com.mingming.block.trade.service.CoinPriceService;
 import com.mingming.block.trade.service.FearIndexService;
 import com.mingming.block.trade.utils.TimeUtils;
@@ -18,10 +19,13 @@ public class FearIndexCoinPriceTask {
 
     private final CoinPriceService coinPriceService;
 
+    private final BtcMarketCapService btcMarketCapService;
+
     @Autowired
-    public FearIndexCoinPriceTask(FearIndexService fearIndexService, CoinPriceService coinPriceService) {
+    public FearIndexCoinPriceTask(FearIndexService fearIndexService, CoinPriceService coinPriceService, BtcMarketCapService btcMarketCapService) {
         this.fearIndexService = fearIndexService;
         this.coinPriceService = coinPriceService;
+        this.btcMarketCapService = btcMarketCapService;
     }
 
     @Scheduled(cron = "0 */5 * * * ?")
@@ -32,12 +36,13 @@ public class FearIndexCoinPriceTask {
             return;
         }
 
-        ApiResponseDto<Integer> storeResponse = fearIndexService.store();
+        ApiResponseVO<Integer> storeResponse = fearIndexService.store();
         if (storeResponse == null || storeResponse.isFailed() || storeResponse.getData() == 0) {
             log.info("today is added");
             return;
         }
         coinPriceService.store(CoinEnum.BitCoin.getSymbol());
         coinPriceService.store(CoinEnum.Eos.getSymbol());
+        btcMarketCapService.store();
     }
 }

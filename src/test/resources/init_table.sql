@@ -19,3 +19,13 @@ CREATE TABLE `coin_price` (
   ENGINE = InnoDB
   AUTO_INCREMENT = 100
   DEFAULT CHARSET = utf8;
+
+CREATE TABLE `btc_market_cap` (
+  `id`              INT(11)   NOT NULL AUTO_INCREMENT,
+  `percent`           INT(11)   NOT NULL,
+  `date`            CHAR(10) NOT NULL,
+  PRIMARY KEY (`id`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 100
+  DEFAULT CHARSET = utf8;

@@ -1,6 +1,6 @@
 package com.mingming.block.trade.controller.rest;
 
-import com.mingming.block.trade.dto.ApiResponseDto;
+import com.mingming.block.trade.dto.ApiResponseVO;
 import com.mingming.block.trade.dto.FearIndexDto;
 import com.mingming.block.trade.service.FearIndexService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ public class FearIndexRestController {
     }
 
     @GetMapping("/get")
-    public ApiResponseDto<FearIndexDto> fetchIndex() {
+    public ApiResponseVO<FearIndexDto> fetchIndex() {
         return fearIndexService.crawl();
     }
 
     @GetMapping("/store")
-    public ApiResponseDto<Integer> storeIndex() {
+    public ApiResponseVO<Integer> storeIndex() {
         return fearIndexService.store();
     }
 

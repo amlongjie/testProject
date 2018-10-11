@@ -1,7 +1,7 @@
 package com.mingming.block.trade.service;
 
 import com.mingming.block.trade.TradeApplicationTests;
-import com.mingming.block.trade.dto.ApiResponseDto;
+import com.mingming.block.trade.dto.ApiResponseVO;
 import com.mingming.block.trade.dto.FearIndexDto;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,15 +13,10 @@ public class FearIndexServiceTests extends TradeApplicationTests {
 
     @Autowired
     private FearIndexService fearIndexService;
-
-    @Test
-    public void testContextLoads() {
-        Assert.assertNotNull(fearIndexService);
-    }
-
+    
     @Test
     public void testCrawl() {
-        ApiResponseDto<FearIndexDto> crawlResponse = fearIndexService.crawl();
+        ApiResponseVO<FearIndexDto> crawlResponse = fearIndexService.crawl();
         Assert.assertNotNull(crawlResponse);
         Assert.assertEquals(0, crawlResponse.getCode());
         Assert.assertEquals("", crawlResponse.getMsg());

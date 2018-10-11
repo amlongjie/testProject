@@ -12,6 +12,7 @@
         <th>指数</th>
         <th>描述</th>
         <th>BTC</th>
+        <th>BTC Cap</th>
         <th>EOS</th>
     </tr>
     <tr th:each="d : ${data}">
@@ -19,6 +20,7 @@
         <td th:text="${d.getIndex()}"></td>
         <td th:text="${d.getStatus()}"></td>
         <td th:text="${d.getBtcPrice() / 100.0}"></td>
+        <td th:text="${d.getBtcCap()}"></td>
         <td th:text="${d.getEosPrice() / 100.0}"></td>
     </tr>
 </table>

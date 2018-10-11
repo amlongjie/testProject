@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FearIndexDto {
+    
     private LocalDate date;
     private Integer index;
     private String status;
