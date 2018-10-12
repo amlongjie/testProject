@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class BtcMarketCapMapperSalTest extends TradeApplicationTests {
+public class BtcMarketCapSalTest extends TradeApplicationTests {
 
     @Autowired
     private BtcMarketCapSal btcMarketCapSal;
