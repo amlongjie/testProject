@@ -36,7 +36,7 @@ public class PriceMonitorTask {
     }
 
 
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 */5 * * * ?")
     public void doSchedule() {
         StringBuilder body = new StringBuilder();
         List<CoinEnum> sendList = Lists.newArrayList();
@@ -75,5 +75,6 @@ public class PriceMonitorTask {
             }
             coinPriceMonitorService.updateSendStatus(sendList);
         }
+        log.info(String.format("monitor end, body:%s", body.toString()));
     }
 }
