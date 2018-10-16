@@ -1,0 +1,1 @@
+package com.mingming.block.trade.common;

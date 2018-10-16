@@ -48,7 +48,9 @@ public class BtcMarketCapService {
 
     private BtcMarketCapDtoWrapper doFetch() {
         BtcMarketCapDto btcMarketCapDto = btcMarketCapSal.doGet();
-        Preconditions.checkArgument(btcMarketCapDto != null && btcMarketCapDto.getBitCoinPercentageOfMarketCap() > 0, "btc market cap crawl failed");
+        Preconditions.checkArgument(
+                btcMarketCapDto != null && btcMarketCapDto.getBitCoinPercentageOfMarketCap() > 0,
+                "btc market cap crawl failed");
         return BtcMarketCapDtoWrapper.from(btcMarketCapDto);
     }
 }

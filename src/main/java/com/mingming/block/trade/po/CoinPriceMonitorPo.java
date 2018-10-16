@@ -11,4 +11,5 @@ public class CoinPriceMonitorPo {
     private Integer highPrice;
     private String symbol;
     private Date updateTime;
+    private Integer send;
 }

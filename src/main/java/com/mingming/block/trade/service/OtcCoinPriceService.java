@@ -2,10 +2,8 @@ package com.mingming.block.trade.service;
 
 import com.google.common.base.Preconditions;
 import com.mingming.block.trade.aspect.annotation.ExHandlerAnnotation;
-import com.mingming.block.trade.dao.CoinPriceMonitorDao;
 import com.mingming.block.trade.dto.ApiResponseVO;
-import com.mingming.block.trade.dto.CoinPriceDto;
-import com.mingming.block.trade.dto.CoinRealTimePriceDto;
+import com.mingming.block.trade.dto.OtcCoinPriceDto;
 import com.mingming.block.trade.enums.CoinEnum;
 import com.mingming.block.trade.sal.OTCBTCPriceSal;
 import org.jsoup.nodes.Document;
@@ -15,30 +13,24 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 @Service
-public class CoinRealTimePriceMonitorService {
+public class OtcCoinPriceService {
 
     private final OTCBTCPriceSal otcbtcPriceSal;
 
-    private final CoinPriceMonitorDao coinPriceMonitorDao;
-
     @Autowired
-    public CoinRealTimePriceMonitorService(OTCBTCPriceSal otcbtcPriceSal,
-                                           CoinPriceMonitorDao coinPriceMonitorDao) {
+    public OtcCoinPriceService(OTCBTCPriceSal otcbtcPriceSal) {
         this.otcbtcPriceSal = otcbtcPriceSal;
-        this.coinPriceMonitorDao = coinPriceMonitorDao;
     }
 
     @ExHandlerAnnotation
-    public ApiResponseVO<CoinPriceMonitorDto> fetch(CoinEnum coinEnum) {
-        Preconditions.checkArgument(coinEnum != null, "coinEnum is null");
-        int price = fetchPriceByCoin(coinEnum);
-
-        CoinPriceDto coinPriceDto = coinPriceMonitorDao.selectBySymbol(coinEnum);
-
-
+    public ApiResponseVO<OtcCoinPriceDto> crawl(String name) {
+        OtcCoinPriceDto otcCoinPriceDto = fetchCoinPrice(name);
+        return ApiResponseVO.success(otcCoinPriceDto);
     }
 
-    private int fetchPriceByCoin(CoinEnum coinEnum) {
+    private OtcCoinPriceDto fetchCoinPrice(String symbol) {
+        CoinEnum coinEnum = CoinEnum.findBySymbol(symbol);
+        Preconditions.checkArgument(coinEnum != null, "coinEnum is not nullable");
         Document document = otcbtcPriceSal.doGet(coinEnum);
         String stringPrice = document.getElementsByClass("list-content")
                 .get(0)
@@ -48,8 +40,10 @@ public class CoinRealTimePriceMonitorService {
                 .replace("Price", "")
                 .replace("CNY", "")
                 .replace("/", "")
+                .replace(",", "")
                 .replace(coinEnum.getSymbol().toUpperCase(), "")
                 .trim();
-        return new BigDecimal(stringPrice).multiply(BigDecimal.TEN).intValue();
+        return new OtcCoinPriceDto(new BigDecimal(stringPrice).multiply(BigDecimal.TEN).multiply(BigDecimal.TEN).intValue());
     }
+
 }

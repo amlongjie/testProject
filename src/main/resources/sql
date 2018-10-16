@@ -26,3 +26,14 @@ CREATE TABLE `btc_market_cap` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `date` (`date`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `coin_price_monitor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `low_price` int(11) NOT NULL,
+  `high_price` int(11) NOT NULL,
+  `symbol` char(10) NOT NULL,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `date` (`symbol`)
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
