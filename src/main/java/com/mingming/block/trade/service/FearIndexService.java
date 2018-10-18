@@ -1,5 +1,6 @@
 package com.mingming.block.trade.service;
 
+import com.google.common.base.Preconditions;
 import com.mingming.block.trade.aspect.annotation.ExHandlerAnnotation;
 import com.mingming.block.trade.dao.FearIndexDao;
 import com.mingming.block.trade.dto.ApiResponseVO;
@@ -70,6 +71,7 @@ public class FearIndexService {
         Elements updateTimeElements = doc.getElementsByClass("fng-footer");
         Element updateTimeElement = updateTimeElements.get(0);
         LocalDate date = LocalDate.parse(updateTimeElement.text().replace("Last updated: ", ""), crawlerFormatter);
+        Preconditions.checkArgument(date.isEqual(LocalDate.now()), "date check error");
 
         // 构造结果
         return new FearIndexDto(date, Integer.valueOf(index), status);
