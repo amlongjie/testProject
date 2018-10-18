@@ -1,5 +1,6 @@
 package com.mingming.block.trade.scheduletask;
 
+import com.mingming.block.trade.dto.ApiResponseVO;
 import com.mingming.block.trade.enums.CoinEnum;
 import com.mingming.block.trade.service.BtcMarketCapService;
 import com.mingming.block.trade.service.CoinPriceService;
@@ -36,7 +37,10 @@ public class FearIndexCoinPriceTask {
         }
 
         try {
-            fearIndexService.store();
+            ApiResponseVO<Integer> fearIndexStoreResponse = fearIndexService.store();
+            if (fearIndexStoreResponse.isFailed()) {
+                return;
+            }
             coinPriceService.store(CoinEnum.BitCoin.getSymbol());
             coinPriceService.store(CoinEnum.Eos.getSymbol());
             btcMarketCapService.store();
