@@ -39,4 +39,22 @@ public class AggPageController {
 
         return modelAndView;
     }
+
+    @RequestMapping("/iwp2")
+    public ModelAndView aggView2() {
+        ModelAndView modelAndView = new ModelAndView();
+
+        ApiResponseVO<List<AggViewDto>> responseDto = fearIndexWithCoinPriceFacade.queryFearIndexWithCoinPrice();
+
+        if (responseDto.getCode() == 1) {
+            modelAndView.setViewName("error_page");
+            modelAndView.addObject("data", responseDto.getMsg());
+            return modelAndView;
+        }
+        modelAndView.setViewName("agg/iwp2");
+        List<AggViewDto> data = responseDto.getData();
+        modelAndView.addObject("data", data);
+
+        return modelAndView;
+    }
 }
