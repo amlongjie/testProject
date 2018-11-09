@@ -38,3 +38,12 @@ CREATE TABLE `coin_price_monitor` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `date` (`symbol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8
+
+CREATE TABLE `index_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `index` int(11) NOT NULL,
+  `date` char(10) NOT NULL,
+  `type` char(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `date` (`type`, `date`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8
